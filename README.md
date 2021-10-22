@@ -4,6 +4,22 @@
 
 ## Usage
 
+### 1. add maven Repository to `build.gradle.kts`
+
+```kotlin
+repositories {
+    maven {
+        url = uri("https://maven.pkg.github.com/Kamedon/KTestCaseDSL")
+        credentials {
+            username = "USER_NAME" 
+            password = "USER PERSONAL ACCESS TOKEN"
+        }
+    }
+}
+```
+
+### 2. define TestCase
+
 ```kotlin
 class TestCaseTest {
     @Test
@@ -38,7 +54,9 @@ class TestCaseTest {
 
 ```
 
-## Render
+## 3. Out TestCase
+
+Output in `any format` you want.
 
 ### ex: output Markdown
 
