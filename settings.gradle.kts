@@ -1,3 +1,4 @@
 
-rootProject.name = "KTestCaseDSL"
+rootProject.name = "ktestcasedsl"
+
 
