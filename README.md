@@ -18,7 +18,15 @@ repositories {
 }
 ```
 
-### 2. define TestCase
+### 2. add dependencies to `build.gradle.kts`
+```kotlin
+dependencies {
+    implementation("com.kamedon:ktestcasedsl:x.y.z")
+}
+```
+
+
+### 3. define TestCase
 
 ```kotlin
 class TestCaseTest {
@@ -54,7 +62,7 @@ class TestCaseTest {
 
 ```
 
-## 3. Out TestCase
+## 4. Output TestCase
 
 Output in `any format` you want.
 
