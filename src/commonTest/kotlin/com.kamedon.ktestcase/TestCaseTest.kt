@@ -53,34 +53,34 @@ class TestCaseTest {
         assertEquals(
             markdown.trim(), """
 ## case1
-### 事前条件
+### PreCondition
 - pre-condition-1
 
 1. step1-1
 
 2. step2-2
-    - [ ]  verify1-2-1
+    - [ ] verify1-2-1
 
 3. step1-3
-    - [ ]  verify1-3-1
-    - [ ]  verify1-3-2
+    - [ ] verify1-3-1
+    - [ ] verify1-3-2
 
 4. step1-4
-    - [ ]  verify1-4-1
-### 期待結果
-    - [ ]  verify-1
-    - [ ]  verify-2
-### 事後条件条件
+    - [ ] verify1-4-1
+### Expected Result
+    - [ ] verify-1
+    - [ ] verify-2
+### PostCondition
 - post-condition-1
 - post-condition-2
 
 ## case2
-### 事前条件
+### PreCondition
 
 1. step2-1
-    - [ ]  verify2-1-1
-### 期待結果
-### 事後条件条件
+    - [ ] verify2-1-1
+### Expected Result
+### PostCondition
 """.trim()
         )
 
@@ -91,14 +91,14 @@ class TestCaseTest {
 fun TestSuite.markdown(): String {
     fun TestCase.title() = "## ${title}\n"
 
-    fun TestCase.preConditionTitle() = "### 事前条件\n"
-    fun TestCase.postConditionTitle() = "### 事後条件条件\n"
-    fun TestCase.verifyTitle() = "### 期待結果\n"
+    fun TestCase.preConditionTitle() = "### PreCondition\n"
+    fun TestCase.postConditionTitle() = "### PostCondition\n"
+    fun TestCase.verifyTitle() = "### Expected Result\n"
 
     fun TestCaseCondition.title() = "- $title\n"
 
     fun TestCaseStep.title(index: Int) = "${index}. ${title}\n"
-    fun TestCaseVerify.title() = "    - [ ]  $title\n"
+    fun TestCaseVerify.title() = "    - [ ] $title\n"
 
     fun TestCaseStep.markdown(index: Int): String {
         return title(index) + verifies.joinToString("") { caseStepVerify ->
