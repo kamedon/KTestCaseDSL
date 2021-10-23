@@ -47,28 +47,44 @@ class TestCaseTest {
         assertEquals(suite.cases[1].caseSteps[0].verifies[0].title, "verify2-1-1")
     }
 
-//    @Test
-//    fun outputToMarkdownTest() {
-//        val markdown = suite.markdown()
-//        assertEquals(
-//            markdown, """
-//### case1
-//1. step1-1
-//
-//2. step2-2
-//    - [ ]  verify1-2-1
-//3. step3
-//    - [ ]  verify1-3-1
-//    - [ ]  verify1-3-2
-//4. step1-4
-//    - [ ]  verify1-4-1
-//### case2
-//1. step2-1
-//    - [ ]  verify2-1-1
-//""".trim()
-//        )
+    @Test
+    fun outputToMarkdownTest() {
+        val markdown = suite.markdown()
+        assertEquals(
+            markdown.trim(), """
+## case1
+### 事前条件
+- pre-condition-1
 
-//    }
+1. step1-1
+
+2. step2-2
+    - [ ]  verify1-2-1
+
+3. step1-3
+    - [ ]  verify1-3-1
+    - [ ]  verify1-3-2
+
+4. step1-4
+    - [ ]  verify1-4-1
+### 期待結果
+    - [ ]  verify-1
+    - [ ]  verify-2
+### 事後条件条件
+- post-condition-1
+- post-condition-2
+
+## case2
+### 事前条件
+
+1. step2-1
+    - [ ]  verify2-1-1
+### 期待結果
+### 事後条件条件
+""".trim()
+        )
+
+    }
 }
 
 
@@ -79,22 +95,23 @@ fun TestSuite.markdown(): String {
     fun TestCase.postConditionTitle() = "### 事後条件条件\n"
     fun TestCase.verifyTitle() = "### 期待結果\n"
 
-    fun TestCaseCondition.title() = "- $title"
+    fun TestCaseCondition.title() = "- $title\n"
 
     fun TestCaseStep.title(index: Int) = "${index}. ${title}\n"
-    fun TestCaseVerify.title() = "    - [ ]  $title"
+    fun TestCaseVerify.title() = "    - [ ]  $title\n"
 
     fun TestCaseStep.markdown(index: Int): String {
-        return title(index) + verifies.joinToString("\n") { caseStepVerify ->
+        return title(index) + verifies.joinToString("") { caseStepVerify ->
             caseStepVerify.title()
         }
     }
 
     fun TestCase.markdown(): String {
 
-        val preConditionMarkdown = preConditionTitle() + preConditions.conditions.joinToString("\n") { it.title() }
-        val postConditionMarkdown = postConditionTitle() + postConditions.conditions.joinToString("\n") { it.title() }
-        val verifyMarkdown = verifyTitle() + verifies.joinToString("\n") { it.title() }
+        val preConditionMarkdown = preConditionTitle() + preConditions.conditions.joinToString("") { it.title() } + "\n"
+        val postConditionMarkdown =
+            postConditionTitle() + postConditions.conditions.joinToString("") { it.title() }
+        val verifyMarkdown = verifyTitle() + verifies.joinToString("") { it.title() }
 
         val stepMarkdown =
             caseSteps.mapIndexed { index, caseStep ->

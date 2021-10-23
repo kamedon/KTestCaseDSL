@@ -62,48 +62,54 @@ class TestCaseTest {
 
 ```
 
-## 4. Output TestCase
+## 4. output TestCase
 
 Output in `any format` you want.
 
 ### ex: output Markdown
 
+Sample Markdown Extension
+
 ```kotlin
 fun TestSuite.markdown(): String {
-    fun TestCase.title() = "### ${title}\n"
-    fun TestCaseStep.title(index: Int) = "${index}. ${title}\n"
-    fun TestCaseStepVerify.title() = "    - [ ]  $title"
-
-    val out = cases.map { case ->
-        case.title() + case.caseSteps.mapIndexed { index, caseStep ->
-            caseStep.title(index + 1) + caseStep.verifies.joinToString("\n") { caseStepVerify ->
-                caseStepVerify.title()
-            }
-        }.joinToString("\n")
-    }.joinToString("\n")
-
-    return out
+   // ...
 }
-```
 
-```kotlin
 suite.markdown()
 ```
+
+- [TestCaseTest.kt](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/TestCaseTest.kt)
 
 output text
 
 ```
-### case1
+## case1
+### 事前条件
+- pre-condition-1
+
 1. step1-1
 
 2. step2-2
     - [ ]  verify1-2-1
-3. step3
+
+3. step1-3
     - [ ]  verify1-3-1
     - [ ]  verify1-3-2
+
 4. step1-4
     - [ ]  verify1-4-1
-### case2
+### 期待結果
+    - [ ]  verify-1
+    - [ ]  verify-2
+### 事後条件条件
+- post-condition-1
+- post-condition-2
+
+## case2
+### 事前条件
+
 1. step2-1
     - [ ]  verify2-1-1
+### 期待結果
+### 事後条件条件
 ```
