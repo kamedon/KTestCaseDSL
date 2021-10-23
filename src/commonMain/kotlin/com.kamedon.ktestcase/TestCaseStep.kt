@@ -1,6 +1,7 @@
 package com.kamedon.ktestcase
 
-class TestCaseStep(val title: String, val verifies: List<TestCaseVerify>)
+class TestCaseStep(val title: String, val verifies: List<TestCaseVerify>) {
+}
 
 class TestCaseStepBuilder(private val action: String) {
     private val verifies = mutableListOf<TestCaseVerify>()
