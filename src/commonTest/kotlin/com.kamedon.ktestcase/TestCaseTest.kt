@@ -51,11 +51,11 @@ class TestCaseTest {
     fun outputToMarkdownTest() {
         val markdown = suite.markdown()
         assertEquals(
-            markdown.trim(), """
-## case1
+            markdown, """## case1
 ### PreCondition
 - pre-condition-1
 
+### Test Step
 1. step1-1
 
 2. step2-2
@@ -68,8 +68,8 @@ class TestCaseTest {
 4. step1-4
     - [ ] verify1-4-1
 ### Expected Result
-    - [ ] verify-1
-    - [ ] verify-2
+- [ ] verify-1
+- [ ] verify-2
 ### PostCondition
 - post-condition-1
 - post-condition-2
@@ -77,11 +77,12 @@ class TestCaseTest {
 ## case2
 ### PreCondition
 
+### Test Step
 1. step2-1
     - [ ] verify2-1-1
 ### Expected Result
 ### PostCondition
-""".trim()
+"""
         )
 
     }
@@ -91,18 +92,19 @@ class TestCaseTest {
 fun TestSuite.markdown(): String {
     fun TestCase.title() = "## ${title}\n"
 
-    fun TestCase.preConditionTitle() = "### PreCondition\n"
-    fun TestCase.postConditionTitle() = "### PostCondition\n"
-    fun TestCase.verifyTitle() = "### Expected Result\n"
+    fun preConditionTitle() = "### PreCondition\n"
+    fun postConditionTitle() = "### PostCondition\n"
+    fun verifyTitle() = "### Expected Result\n"
+    fun stepTitle() = "### Test Step\n"
 
     fun TestCaseCondition.title() = "- $title\n"
 
     fun TestCaseStep.title(index: Int) = "${index}. ${title}\n"
-    fun TestCaseVerify.title() = "    - [ ] $title\n"
+    fun TestCaseVerify.title() = "- [ ] $title\n"
 
     fun TestCaseStep.markdown(index: Int): String {
         return title(index) + verifies.joinToString("") { caseStepVerify ->
-            caseStepVerify.title()
+            "    ${caseStepVerify.title()}"
         }
     }
 
@@ -114,7 +116,7 @@ fun TestSuite.markdown(): String {
         val verifyMarkdown = verifyTitle() + verifies.joinToString("") { it.title() }
 
         val stepMarkdown =
-            caseSteps.mapIndexed { index, caseStep ->
+            stepTitle() + caseSteps.mapIndexed { index, caseStep ->
                 caseStep.markdown(index + 1)
             }.joinToString("\n")
 

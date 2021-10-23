@@ -101,6 +101,7 @@ output text
 ### PreCondition
 - pre-condition-1
 
+### Test Step
 1. step1-1
 
 2. step2-2
@@ -113,8 +114,8 @@ output text
 4. step1-4
     - [ ] verify1-4-1
 ### Expected Result
-    - [ ] verify-1
-    - [ ] verify-2
+- [ ] verify-1
+- [ ] verify-2
 ### PostCondition
 - post-condition-1
 - post-condition-2
@@ -122,6 +123,7 @@ output text
 ## case2
 ### PreCondition
 
+### Test Step
 1. step2-1
     - [ ] verify2-1-1
 ### Expected Result
