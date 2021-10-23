@@ -3,7 +3,7 @@ package com.kamedon.ktestcase
 import kotlin.test.*
 
 class TestSuiteTest {
-    private val suite = suite("TestSuite 1") {
+    private val suite = testSuite("TestSuite 1") {
         case("case1") {
             preCondition {
                 condition("pre-condition-1")

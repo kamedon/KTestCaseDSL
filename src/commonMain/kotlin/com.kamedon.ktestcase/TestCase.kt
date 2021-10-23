@@ -8,37 +8,30 @@ data class TestCase(
     val postConditions: TestCaseConditions
 )
 
-class TestCaseBuilder(internal val title: String) {
+class TestCaseBuilder(private val title: String) {
 
     internal val caseSteps = mutableListOf<TestCaseStep>()
     internal val verifies = mutableListOf<TestCaseVerify>()
-    private var preCondition = TestCaseConditions(listOf())
-    private var postCondition = TestCaseConditions(listOf())
+    internal var preCondition = TestCaseConditions(listOf())
+    internal var postCondition = TestCaseConditions(listOf())
+
 
     fun build() = TestCase(title, preCondition, caseSteps, verifies, postCondition)
 
     fun preCondition(init: TestCaseConditionsBuilder.() -> Unit) {
-        preCondition = TestCaseConditionsBuilder().apply(init).build()
-    }
-
-    fun preCondition(condition: TestCaseConditions) {
-        preCondition = condition
+        preCondition = testCaseCondition(init)
     }
 
     fun postCondition(init: TestCaseConditionsBuilder.() -> Unit) {
-        postCondition = TestCaseConditionsBuilder().apply(init).build()
-    }
-
-    fun postCondition(condition: TestCaseConditions) {
-        postCondition = condition
+        postCondition = testCaseCondition(init)
     }
 
     fun verify(title: String) {
-        verifies.add(TestCaseVerify(title))
+        verifies.add(testCaseVerify(title))
     }
 
     fun step(title: String, init: TestCaseStepBuilder.() -> Unit = {}) {
-        TestCaseStepBuilder(title).apply(init).build().also { caseSteps.add(it) }
+        testCaseStep(title, init).also { caseSteps.add(it) }
     }
 
 
@@ -59,5 +52,14 @@ fun TestCaseBuilder.verify(verify: TestCaseVerify) {
 fun TestCaseBuilder.verifies(caseVerifies: List<TestCaseVerify>) {
     verifies.addAll(caseVerifies)
 }
+
+fun TestCaseBuilder.preCondition(condition: TestCaseConditions) {
+    preCondition = condition
+}
+
+fun TestCaseBuilder.postCondition(condition: TestCaseConditions) {
+    postCondition = condition
+}
+
 
 
