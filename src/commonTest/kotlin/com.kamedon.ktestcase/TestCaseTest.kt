@@ -51,8 +51,7 @@ class TestCaseTest {
     fun outputToMarkdownTest() {
         val markdown = suite.markdown()
         assertEquals(
-            markdown.trim(), """
-## case1
+            markdown, """## case1
 ### PreCondition
 - pre-condition-1
 
@@ -68,8 +67,8 @@ class TestCaseTest {
 4. step1-4
     - [ ] verify1-4-1
 ### Expected Result
-    - [ ] verify-1
-    - [ ] verify-2
+- [ ] verify-1
+- [ ] verify-2
 ### PostCondition
 - post-condition-1
 - post-condition-2
@@ -81,7 +80,7 @@ class TestCaseTest {
     - [ ] verify2-1-1
 ### Expected Result
 ### PostCondition
-""".trim()
+"""
         )
 
     }
@@ -98,11 +97,11 @@ fun TestSuite.markdown(): String {
     fun TestCaseCondition.title() = "- $title\n"
 
     fun TestCaseStep.title(index: Int) = "${index}. ${title}\n"
-    fun TestCaseVerify.title() = "    - [ ] $title\n"
+    fun TestCaseVerify.title() = "- [ ] $title\n"
 
     fun TestCaseStep.markdown(index: Int): String {
         return title(index) + verifies.joinToString("") { caseStepVerify ->
-            caseStepVerify.title()
+            "    ${caseStepVerify.title()}"
         }
     }
 
