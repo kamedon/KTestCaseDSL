@@ -8,8 +8,8 @@ class TestCaseTest {
         val step = testCaseStep("create TestStep") {
             verify("create Verify")
         }
-        assertEquals(step.title, "create TestStep")
-        assertEquals(step.verifies[0].title, "create Verify")
+        assertEquals( "create TestStep",step.title)
+        assertEquals( "create Verify",step.verifies[0].title)
     }
 
     @Test
@@ -22,7 +22,7 @@ class TestCaseTest {
                 step("step2")
             }
         }
-        assertEquals(suite.cases[0].caseSteps[1].title, step.title)
+        assertEquals(step.title, suite.cases[0].caseSteps[1].title)
     }
 
     @Test
@@ -35,8 +35,8 @@ class TestCaseTest {
                 step("step2")
             }
         }
-        assertEquals(suite.cases[0].caseSteps[1].title, steps[0].title)
-        assertEquals(suite.cases[0].caseSteps[2].title, steps[1].title)
+        assertEquals(steps[0].title, suite.cases[0].caseSteps[1].title)
+        assertEquals(steps[1].title, suite.cases[0].caseSteps[2].title)
     }
 
 }

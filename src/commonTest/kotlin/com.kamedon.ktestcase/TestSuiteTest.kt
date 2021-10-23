@@ -37,21 +37,21 @@ class TestSuiteTest {
 
     @Test
     fun suiteTest() {
-        assertEquals(suite.title, "TestSuite 1")
-        assertEquals(suite.cases[0].title, "case1")
-        assertEquals(suite.cases[0].preConditions.conditions[0].title, "pre-condition-1")
-        assertEquals(suite.cases[0].caseSteps[1].title, "step2-2")
-        assertEquals(suite.cases[0].caseSteps[2].verifies[1].title, "verify1-3-2")
-        assertEquals(suite.cases[0].verifies[1].title, "verify-2")
-        assertEquals(suite.cases[0].postConditions.conditions[1].title, "post-condition-2")
-        assertEquals(suite.cases[1].caseSteps[0].verifies[0].title, "verify2-1-1")
+        assertEquals("TestSuite 1", suite.title)
+        assertEquals("case1", suite.cases[0].title)
+        assertEquals("pre-condition-1", suite.cases[0].preConditions.conditions[0].title)
+        assertEquals("step2-2", suite.cases[0].caseSteps[1].title)
+        assertEquals("verify1-3-2", suite.cases[0].caseSteps[2].verifies[1].title)
+        assertEquals("verify-2", suite.cases[0].verifies[1].title)
+        assertEquals("post-condition-2", suite.cases[0].postConditions.conditions[1].title)
+        assertEquals("verify2-1-1", suite.cases[1].caseSteps[0].verifies[0].title)
     }
 
     @Test
     fun outputToMarkdownTest() {
         val markdown = suite.markdown()
         assertEquals(
-            markdown, """## case1
+            """## case1
 ### PreCondition
 - pre-condition-1
 
@@ -82,7 +82,7 @@ class TestSuiteTest {
     - [ ] verify2-1-1
 ### Expected Result
 ### PostCondition
-"""
+""", markdown
         )
 
     }
