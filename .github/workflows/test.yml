@@ -24,7 +24,13 @@ jobs:
         run: chmod +x gradlew
       - name: JVM Test with Gradle
         run: ./gradlew jvmTest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: JS Test with Gradle
         run: ./gradlew jsTest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Native Test with Gradle
         run: ./gradlew nativeTest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
