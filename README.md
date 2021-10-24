@@ -32,7 +32,7 @@ dependencies {
 class TestCaseTest {
     @Test
     fun suiteTest() {
-        private val suite = testSuite("TestSuite 1") {
+        val suite = testSuite("TestSuite 1") {
             case("case1") {
                 preCondition {
                     condition("pre-condition-1")
@@ -62,8 +62,8 @@ class TestCaseTest {
                     verify("verify2-1-1")
                 }
             }
-            
         }
+
         assertEquals("TestSuite 1", suite.title)
         assertEquals("case1", suite.cases[0].title)
         assertEquals("pre-condition-1", suite.cases[0].preConditions.conditions[0].title)
@@ -83,7 +83,7 @@ Output in `any format` you want.
 
 ### ex: output Markdown
 
-[Sample Markdown Extension](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/TestSuiteTest.kt)
+[Sample Markdown Extension](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/helper/TestSuiteMarkdown.kt)
 
 ```kotlin
 fun TestSuite.markdown(): String {
@@ -97,6 +97,7 @@ suite.markdown()
 output text
 
 ```
+# TestSuite 1
 ## case1
 ### PreCondition
 - pre-condition-1
