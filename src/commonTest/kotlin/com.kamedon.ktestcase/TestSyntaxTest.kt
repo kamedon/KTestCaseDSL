@@ -67,4 +67,18 @@ class TestSyntaxKtTest {
         val verify = testCaseVerify("verify")
         assertEquals("verify", verify.title)
     }
+
+    @Test
+    fun testAttributeTest() {
+        val attribute: TestAttribute = testAttribute {
+            mapOf(
+                "Tags" to "tag1, tag2, tag3",
+                "Priority" to "High"
+            )
+        }
+        assertTrue(attribute is TestAttribute.Attribute<*>)
+        val value = attribute.value as Map<*, *>
+        assertEquals("tag1, tag2, tag3", value["Tags"])
+        assertEquals("High", value["Priority"])
+    }
 }

@@ -19,3 +19,8 @@ fun testCaseCondition(init: TestCaseConditionsBuilder.() -> Unit): TestCaseCondi
 fun testCaseVerify(title: String): TestCaseVerify {
     return TestCaseVerify(title)
 }
+
+
+fun <T> testAttribute(attribute: () -> T): TestAttribute.Attribute<T> {
+    return TestAttribute.Attribute(attribute())
+}
