@@ -9,7 +9,7 @@ class TestSuiteBuilder(private val title: String) {
     fun build() = TestSuite(title, cases)
 
     fun case(title: String, init: TestCaseBuilder.() -> Unit) {
-        TestCaseBuilder(title).apply(init).build().also { cases.add(it) }
+        testCase(title, init).also { cases.add(it) }
     }
 
 
