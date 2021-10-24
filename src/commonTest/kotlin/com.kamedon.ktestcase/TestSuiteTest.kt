@@ -52,7 +52,8 @@ class TestSuiteTest {
     fun outputToMarkdownTest() {
         val markdown = suite.markdown()
         assertEquals(
-            """## case1
+            """# TestSuite 1
+## case1
 ### PreCondition
 - pre-condition-1
 

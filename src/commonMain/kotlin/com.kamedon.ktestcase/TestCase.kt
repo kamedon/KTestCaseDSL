@@ -35,7 +35,7 @@ class TestCaseBuilder(private val title: String) {
         testCaseStep(title, init).also { caseSteps.add(it) }
     }
 
-    fun <T> attribute(testAttribute: () -> T) {
+    fun <T> attributeWith(testAttribute: () -> T) {
         attribute = testAttribute(testAttribute)
     }
 
@@ -66,7 +66,7 @@ fun TestCaseBuilder.postCondition(condition: TestCaseConditions) {
     postCondition = condition
 }
 
-fun <T> TestCaseBuilder.attribute(testAttribute: TestAttribute.Attribute<T>) {
+fun <T> TestCaseBuilder.attributeWith(testAttribute: TestAttribute.Attribute<T>) {
     attribute = testAttribute
 }
 
