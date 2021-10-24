@@ -3,6 +3,7 @@ package com.kamedon.ktestcase.helper
 import com.kamedon.ktestcase.*
 
 fun TestSuite.markdown(): String {
+    fun suiteTitle() = "# ${title}\n"
     fun TestCase.title() = "## ${title}\n"
 
     fun preConditionTitle() = "### PreCondition\n"
@@ -21,23 +22,26 @@ fun TestSuite.markdown(): String {
         }
     }
 
+
+    fun TestAttribute.markdown() = when (this) {
+        TestAttribute.NONE -> ""
+        is TestAttribute.Attribute<*> -> {
+            "### Attribute \n" + (value as? Map<String, String>)?.let {
+                it.entries.joinToString("") { entry ->
+                    "- ${entry.key}: ${entry.value}\n"
+                }
+            }
+        }
+
+    }
+
     fun TestCase.markdown(): String {
 
         val preConditionMarkdown = preConditionTitle() + preConditions.conditions.joinToString("") { it.title() } + "\n"
         val postConditionMarkdown =
             postConditionTitle() + postConditions.conditions.joinToString("") { it.title() }
         val verifyMarkdown = verifyTitle() + verifies.joinToString("") { it.title() }
-
-        val attributeMarkdown = when (val attr = attribute) {
-            TestAttribute.NONE -> ""
-            is TestAttribute.Attribute<*> -> {
-                "### Attribute \n" + (attr.value as? Map<String, String>)?.let {
-                    it.entries.joinToString("") { entry ->
-                        "- ${entry.key}: ${entry.value}\n"
-                    }
-                }
-            }
-        }
+        val attributeMarkdown = attribute.markdown()
 
         val stepMarkdown =
             stepTitle() + caseSteps.mapIndexed { index, caseStep ->
@@ -47,5 +51,5 @@ fun TestSuite.markdown(): String {
         return title() + attributeMarkdown + preConditionMarkdown + stepMarkdown + verifyMarkdown + postConditionMarkdown
     }
 
-    return cases.joinToString("\n") { it.markdown() }
+    return suiteTitle() + attribute.markdown() + cases.joinToString("\n") { it.markdown() }
 }

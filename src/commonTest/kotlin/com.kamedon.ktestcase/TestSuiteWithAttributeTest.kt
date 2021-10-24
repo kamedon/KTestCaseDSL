@@ -5,8 +5,13 @@ import kotlin.test.*
 
 class TestSuiteWithAttributeTest {
     private val suite = testSuite("TestSuite 1") {
+        attributeWith {
+            mapOf(
+                "Feature" to "Login"
+            )
+        }
         case("case1") {
-            attribute {
+            attributeWith {
                 mapOf(
                     "Tags" to "tag1, tag2, tag3",
                     "Priority" to "High"
@@ -36,7 +41,7 @@ class TestSuiteWithAttributeTest {
             }
         }
         case("case2") {
-            attribute {
+            attributeWith {
                 mapOf(
                     "Tags" to "tag1, tag2, tag3",
                     "Priority" to "Low"
@@ -56,10 +61,13 @@ class TestSuiteWithAttributeTest {
     @Test
     fun suiteTest() {
         assertEquals("TestSuite 1", suite.title)
+        assertTrue { suite.attribute is TestAttribute.Attribute<*> }
+        val suiteAttribute = (suite.attribute as TestAttribute.Attribute<*>).value as Map<*, *>
+        assertEquals("Login", suiteAttribute["Feature"])
         assertEquals("case1", suite.cases[0].title)
         assertTrue { suite.cases[0].attribute is TestAttribute.Attribute<*> }
-        val attribute = (suite.cases[0].attribute as TestAttribute.Attribute<*>).value as Map<*, *>
-        assertEquals("tag1, tag2, tag3", attribute["Tags"])
+        val testAttribute = (suite.cases[0].attribute as TestAttribute.Attribute<*>).value as Map<*, *>
+        assertEquals("tag1, tag2, tag3", testAttribute["Tags"])
         assertEquals(TestAttribute.NONE, suite.cases[2].attribute)
         assertEquals("pre-condition-1", suite.cases[0].preConditions.conditions[0].title)
         assertEquals("step2-2", suite.cases[0].caseSteps[1].title)
@@ -73,7 +81,10 @@ class TestSuiteWithAttributeTest {
     fun outputToMarkdownTest() {
         val markdown = suite.markdown()
         assertEquals(
-            """## case1
+            """# TestSuite 1
+### Attribute 
+- Feature: Login
+## case1
 ### Attribute 
 - Tags: tag1, tag2, tag3
 - Priority: High
