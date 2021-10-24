@@ -20,6 +20,12 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: gradle
+      - name: Build Cache
+        id: build-cache
+        uses: actions/cache@v2
+        with:
+          path: build
+          key: ${{ runner.os }}-${{ hashFiles('**/build.gradle.kts') }}
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: JVM Test with Gradle
