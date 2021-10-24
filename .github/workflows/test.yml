@@ -28,5 +28,5 @@ jobs:
         run: ./gradlew jvmTest
       - name: JS Test with Gradle
         run: ./gradlew jsTest
-      - name: Native with Gradle
+      - name: Native Test with Gradle
         run: ./gradlew nativeTest
