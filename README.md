@@ -11,7 +11,7 @@ repositories {
     maven {
         url = uri("https://maven.pkg.github.com/Kamedon/KTestCaseDSL")
         credentials {
-            username = "USER_NAME" 
+            username = "USER_NAME"
             password = "USER PERSONAL ACCESS TOKEN"
         }
     }
@@ -19,12 +19,12 @@ repositories {
 ```
 
 ### 2. add dependencies to `build.gradle.kts`
+
 ```kotlin
 dependencies {
     implementation("com.kamedon:ktestcasedsl:x.y.z")
 }
 ```
-
 
 ### 3. define TestCase
 
@@ -32,7 +32,7 @@ dependencies {
 class TestCaseTest {
     @Test
     fun suiteTest() {
-        val suite = suite("TestSuite 1") {
+        private val suite = testSuite("TestSuite 1") {
             case("case1") {
                 preCondition {
                     condition("pre-condition-1")
@@ -62,15 +62,16 @@ class TestCaseTest {
                     verify("verify2-1-1")
                 }
             }
+            
         }
-        assertEquals(suite.title, "TestSuite 1")
-        assertEquals(suite.cases[0].title, "case1")
-        assertEquals(suite.cases[0].preConditions.conditions[0].title, "pre-condition-1")
-        assertEquals(suite.cases[0].caseSteps[1].title, "step2-2")
-        assertEquals(suite.cases[0].caseSteps[2].verifies[1].title, "verify1-3-2")
-        assertEquals(suite.cases[0].verifies[1].title, "verify-2")
-        assertEquals(suite.cases[0].postConditions.conditions[1].title, "post-condition-2")
-        assertEquals(suite.cases[1].caseSteps[0].verifies[0].title, "verify2-1-1")
+        assertEquals("TestSuite 1", suite.title)
+        assertEquals("case1", suite.cases[0].title)
+        assertEquals("pre-condition-1", suite.cases[0].preConditions.conditions[0].title)
+        assertEquals("step2-2", suite.cases[0].caseSteps[1].title)
+        assertEquals("verify1-3-2", suite.cases[0].caseSteps[2].verifies[1].title)
+        assertEquals("verify-2", suite.cases[0].verifies[1].title)
+        assertEquals("post-condition-2", suite.cases[0].postConditions.conditions[1].title)
+        assertEquals("verify2-1-1", suite.cases[1].caseSteps[0].verifies[0].title)
     }
 }
 
@@ -86,7 +87,7 @@ Sample Markdown Extension
 
 ```kotlin
 fun TestSuite.markdown(): String {
-   // ...
+    // ...
 }
 
 suite.markdown()
