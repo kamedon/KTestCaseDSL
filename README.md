@@ -79,7 +79,7 @@ class TestCaseTest {
 
 ## 4. output TestCase
 
-Output in `any format` you want.
+Output in `Any Format` you want.
 
 ### ex: output Markdown
 
@@ -92,7 +92,6 @@ fun TestSuite.markdown(): String {
 
 suite.markdown()
 ```
-
 
 output text
 
@@ -130,3 +129,10 @@ output text
 ### Expected Result
 ### PostCondition
 ```
+
+## Advanced Feature
+
+### Add `Any Attribute` to TestSuite or TestCase   
+
+[Sample Custom Attribute](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/TestSuiteWithAttributeTest.kt)
+
