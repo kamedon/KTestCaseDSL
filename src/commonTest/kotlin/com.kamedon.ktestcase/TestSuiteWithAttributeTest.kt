@@ -3,9 +3,15 @@ package com.kamedon.ktestcase
 import com.kamedon.ktestcase.helper.markdown
 import kotlin.test.*
 
-class TestSuiteTest {
+class TestSuiteWithAttributeTest {
     private val suite = testSuite("TestSuite 1") {
         case("case1") {
+            attribute {
+                mapOf(
+                    "Tags" to "tag1, tag2, tag3",
+                    "Priority" to "High"
+                )
+            }
             preCondition {
                 condition("pre-condition-1")
             }
@@ -30,7 +36,18 @@ class TestSuiteTest {
             }
         }
         case("case2") {
+            attribute {
+                mapOf(
+                    "Tags" to "tag1, tag2, tag3",
+                    "Priority" to "Low"
+                )
+            }
             step("step2-1") {
+                verify("verify2-1-1")
+            }
+        }
+        case("case3") {
+            step("step3-1") {
                 verify("verify2-1-1")
             }
         }
@@ -40,6 +57,10 @@ class TestSuiteTest {
     fun suiteTest() {
         assertEquals("TestSuite 1", suite.title)
         assertEquals("case1", suite.cases[0].title)
+        assertTrue { suite.cases[0].attribute is TestAttribute.Attribute<*> }
+        val attribute = (suite.cases[0].attribute as TestAttribute.Attribute<*>).value as Map<*, *>
+        assertEquals("tag1, tag2, tag3", attribute["Tags"])
+        assertEquals(TestAttribute.NONE, suite.cases[2].attribute)
         assertEquals("pre-condition-1", suite.cases[0].preConditions.conditions[0].title)
         assertEquals("step2-2", suite.cases[0].caseSteps[1].title)
         assertEquals("verify1-3-2", suite.cases[0].caseSteps[2].verifies[1].title)
@@ -53,6 +74,9 @@ class TestSuiteTest {
         val markdown = suite.markdown()
         assertEquals(
             """## case1
+### Attribute 
+- Tags: tag1, tag2, tag3
+- Priority: High
 ### PreCondition
 - pre-condition-1
 
@@ -76,10 +100,22 @@ class TestSuiteTest {
 - post-condition-2
 
 ## case2
+### Attribute 
+- Tags: tag1, tag2, tag3
+- Priority: Low
 ### PreCondition
 
 ### Test Step
 1. step2-1
+    - [ ] verify2-1-1
+### Expected Result
+### PostCondition
+
+## case3
+### PreCondition
+
+### Test Step
+1. step3-1
     - [ ] verify2-1-1
 ### Expected Result
 ### PostCondition
@@ -88,5 +124,3 @@ class TestSuiteTest {
 
     }
 }
-
-
