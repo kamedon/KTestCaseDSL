@@ -53,7 +53,7 @@ kotlin {
 }
 
 group = "com.kamedon"
-version = "0.3.0"
+version = "0.4.0"
 
 publishing {
 
@@ -62,7 +62,6 @@ publishing {
         maven {
             name = "KTestCaseDSL"
             url = uri("https://maven.pkg.github.com/kamedon/KTestCaseDSL")
-//            CREDENTIALS
             credentials {
                 username = credentials.getProperty("user")
                 password = credentials.getProperty("password")
