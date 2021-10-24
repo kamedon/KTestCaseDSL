@@ -83,7 +83,7 @@ Output in `any format` you want.
 
 ### ex: output Markdown
 
-Sample Markdown Extension
+[Sample Markdown Extension](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/TestSuiteTest.kt)
 
 ```kotlin
 fun TestSuite.markdown(): String {
@@ -93,7 +93,6 @@ fun TestSuite.markdown(): String {
 suite.markdown()
 ```
 
-- [TestCaseTest.kt](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/TestCaseTest.kt)
 
 output text
 
