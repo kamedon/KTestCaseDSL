@@ -58,6 +58,7 @@ version = "0.4.0"
 publishing {
 
     val credentials = loadProperties("$rootDir/github.properties")
+
     repositories {
         maven {
             name = "KTestCaseDSL"
@@ -72,6 +73,12 @@ publishing {
 }
 fun loadProperties(fileName: String): Properties {
     val props = Properties()
-    props.load(file(fileName).inputStream())
+    val file = file(fileName)
+    if (!file.exists()) {
+        props.setProperty("user", System.getenv("GITHUB_ACTOR"))
+        props.setProperty("password", System.getenv("GITHUB_TOKEN"))
+        return props
+    }
+    props.load(file.inputStream())
     return props
 }
