@@ -26,7 +26,7 @@ fun TestSuite.markdown(): String {
     fun TestAttribute.markdown() = when (this) {
         TestAttribute.NONE -> ""
         is TestAttribute.Attribute<*> -> {
-            "### Attribute \n" + (value as? Map<String, String>)?.let {
+            "### Attribute \n" + (value as? Map<*, *>)?.let {
                 it.entries.joinToString("") { entry ->
                     "- ${entry.key}: ${entry.value}\n"
                 }
