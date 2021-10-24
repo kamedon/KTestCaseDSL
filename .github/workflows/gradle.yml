@@ -24,6 +24,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Test with Gradle
-        run: echo  ${{ secrets.CREDENTIALS}} > github.properties
+        run: echo ${{ secrets.CREDENTIALS}} > github.properties
       - name: Test with Gradle
         run: ./gradlew jvmTest
+      - name: Test with Gradle
+        run: ./gradlew jsTest
+      - name: Test with Gradle
+        run: ./gradlew nativeTest
