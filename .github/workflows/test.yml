@@ -22,8 +22,6 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Set CREDENTIALS
-        run: echo ${{ secrets.CREDENTIALS}} > github.properties
       - name: JVM Test with Gradle
         run: ./gradlew jvmTest
       - name: JS Test with Gradle
