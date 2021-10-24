@@ -1,17 +1,14 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Publish GitHub Package with Gradle
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags: "*"
 
 jobs:
-  jvmTest:
-
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,11 +20,7 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Test with Gradle
+      - name: Set CREDENTIALS
         run: echo ${{ secrets.CREDENTIALS}} > github.properties
-      - name: Test with Gradle
-        run: ./gradlew jvmTest
-      - name: Test with Gradle
-        run: ./gradlew jsTest
-      - name: Test with Gradle
-        run: ./gradlew nativeTest
+      - name: Publish GitHub Package Repository
+        run: ./gradlew publish
