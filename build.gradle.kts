@@ -5,10 +5,12 @@ plugins {
     id("maven-publish")
 }
 
-
 repositories {
     mavenCentral()
 }
+
+group = "com.kamedon"
+version = "0.4.3"
 
 kotlin {
     jvm {
@@ -52,8 +54,6 @@ kotlin {
     }
 }
 
-group = "com.kamedon"
-version = "0.4.0"
 
 publishing {
 
