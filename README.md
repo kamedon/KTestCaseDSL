@@ -1,6 +1,6 @@
 # generate TestCase with Kotlin
 
-[![Java CI with Gradle](https://github.com/kamedon/KTestCaseDSL/actions/workflows/gradle.yml/badge.svg)](https://github.com/kamedon/KTestCaseDSL/actions/workflows/gradle.yml)
+[![UnitTest with Gradle](https://github.com/kamedon/KTestCaseDSL/actions/workflows/test.yml/badge.svg)](https://github.com/kamedon/KTestCaseDSL/actions/workflows/test.yml)
 
 ## Usage
 
