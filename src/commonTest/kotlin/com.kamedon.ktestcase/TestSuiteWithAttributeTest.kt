@@ -1,7 +1,10 @@
 package com.kamedon.ktestcase
 
 import com.kamedon.ktestcase.helper.markdown
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFails
+import kotlin.test.assertTrue
 
 class TestSuiteWithAttributeTest {
     private val suite = testSuite("TestSuite 1") {
@@ -132,6 +135,83 @@ class TestSuiteWithAttributeTest {
 ### PostCondition
 """, markdown
         )
+    }
 
+    @Test
+    fun filterByAttribute() {
+        val filterSuite = suite.filterByAttribute<Map<*, *>> {
+            it["Priority"] === "High"
+        }
+        println(filterSuite.toString())
+
+        assertEquals(1, filterSuite.cases.size)
+        assertEquals("case1", filterSuite.cases[0].title)
+    }
+
+    @Test
+    fun filterByAttributeIncludeNone() {
+        val filterSuite = suite.filterByAttribute<Map<*, *>>(true) {
+            it["Priority"] === "High"
+        }
+        println(filterSuite.toString())
+
+        assertEquals(2, filterSuite.cases.size)
+        assertEquals("case1", filterSuite.cases[0].title)
+        assertEquals("case3", filterSuite.cases[1].title)
+    }
+
+    @Test
+    fun filterByAttributeElseError() {
+        val suite = testSuite("suite1") {
+            case("case1") {}
+            case("case2") {
+                attributeWith { "test" }
+            }
+            case("case3") {
+                attributeWith {
+                    mapOf(
+                        "Tags" to "tag1, tag2, tag3",
+                        "Priority" to "Low"
+                    )
+                }
+            }
+        }
+        val exception = assertFails {
+            suite.filterByAttributeElseError<Map<*, *>> {
+                it["Priority"] === "Low"
+            }
+        }
+        println(exception::class.toString())
+        assertTrue { exception is ClassCastException }
+    }
+
+    @Test
+    fun filterByAttributeElseErrorIncludeNone() {
+        val suite = testSuite("suite1") {
+            case("case1") {}
+            case("case2") {
+                attributeWith {
+                    mapOf(
+                        "Tags" to "tag1, tag2, tag3",
+                        "Priority" to "High"
+                    )
+                }
+            }
+            case("case3") {
+                attributeWith {
+                    mapOf(
+                        "Tags" to "tag1, tag2, tag3",
+                        "Priority" to "Low"
+                    )
+                }
+            }
+        }
+        val filterSuite = suite.filterByAttributeElseError<Map<*, *>>(true) {
+            it["Priority"] === "Low"
+        }
+
+        assertEquals(2, filterSuite.cases.size)
+        assertEquals("case1", filterSuite.cases[0].title)
+        assertEquals("case3", filterSuite.cases[1].title)
     }
 }
