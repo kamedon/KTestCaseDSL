@@ -1,7 +1,35 @@
 package com.kamedon.ktestcase
 
 
-data class TestSuite(val title: String, val attribute: TestAttribute = TestAttribute.NONE, val cases: List<TestCase>)
+data class TestSuite(val title: String, val attribute: TestAttribute = TestAttribute.NONE, val cases: List<TestCase>) {
+    @Suppress("UNCHECKED_CAST")
+    inline fun <T> filterByAttribute(includeNoneAttribute: Boolean = false, f: (T) -> Boolean): TestSuite {
+        val filterCases = cases.filter {
+            when (val caseAttribute = it.attribute) {
+                TestAttribute.NONE -> includeNoneAttribute
+                is TestAttribute.Attribute<*> -> {
+                    val attributeValue = caseAttribute.value as? T ?: return@filter false
+                    f(attributeValue)
+                }
+            }
+        }
+        return copy(cases = filterCases)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    inline fun <T> filterByAttributeElseError(includeNoneAttribute: Boolean = false, f: (T) -> Boolean): TestSuite {
+        val filterCases = cases.filter {
+            when (val caseAttribute = it.attribute) {
+                TestAttribute.NONE -> includeNoneAttribute
+                is TestAttribute.Attribute<*> -> {
+                    val attributeValue = caseAttribute.value as T
+                    f(attributeValue)
+                }
+            }
+        }
+        return copy(cases = filterCases)
+    }
+}
 
 class TestSuiteBuilder(private val title: String) {
     internal val cases = mutableListOf<TestCase>()
