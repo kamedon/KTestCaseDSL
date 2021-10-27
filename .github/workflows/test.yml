@@ -40,3 +40,13 @@ jobs:
         run: ./gradlew nativeTest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: JacocoTestReport
+        run: ./gradlew jacocoTestReport
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: artifact JacocoTestReport
+        uses: actions/upload-artifact@v2
+        with:
+          name: JacocoTestReport
+          path: ./build/jacocoHtml
+
