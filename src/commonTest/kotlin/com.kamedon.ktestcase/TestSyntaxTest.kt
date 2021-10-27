@@ -30,8 +30,8 @@ class TestSyntaxKtTest {
             }
         }
         assertEquals("case", case.title)
-        assertEquals(2, case.caseSteps.size)
-        assertEquals("step2", case.caseSteps[1].title)
+        assertEquals(2, case.steps.size)
+        assertEquals("step2", case.steps[1].title)
         assertEquals("preCondition1", case.preConditions.conditions[0].title)
         assertEquals(2, case.preConditions.conditions.size)
         assertEquals("postCondition2", case.postConditions.conditions[1].title)

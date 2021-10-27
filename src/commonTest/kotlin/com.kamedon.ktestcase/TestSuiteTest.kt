@@ -41,11 +41,11 @@ class TestSuiteTest {
         assertEquals("TestSuite 1", suite.title)
         assertEquals("case1", suite.cases[0].title)
         assertEquals("pre-condition-1", suite.cases[0].preConditions.conditions[0].title)
-        assertEquals("step2-2", suite.cases[0].caseSteps[1].title)
-        assertEquals("verify1-3-2", suite.cases[0].caseSteps[2].verifies[1].title)
+        assertEquals("step2-2", suite.cases[0].steps[1].title)
+        assertEquals("verify1-3-2", suite.cases[0].steps[2].verifies[1].title)
         assertEquals("verify-2", suite.cases[0].verifies[1].title)
         assertEquals("post-condition-2", suite.cases[0].postConditions.conditions[1].title)
-        assertEquals("verify2-1-1", suite.cases[1].caseSteps[0].verifies[0].title)
+        assertEquals("verify2-1-1", suite.cases[1].steps[0].verifies[0].title)
     }
 
     @Test

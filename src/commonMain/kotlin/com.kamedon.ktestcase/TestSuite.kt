@@ -1,7 +1,7 @@
 package com.kamedon.ktestcase
 
 
-data class TestSuite(val title: String, val attribute: TestAttribute = TestAttribute.NONE, val cases: List<TestCase>) {
+data class TestSuite(val title: String, val cases: List<TestCase>, val attribute: TestAttribute = TestAttribute.NONE) {
     @Suppress("UNCHECKED_CAST")
     inline fun <T> filterByAttribute(includeNoneAttribute: Boolean = false, f: (T) -> Boolean): TestSuite {
         val filterCases = cases.filter {
@@ -35,7 +35,7 @@ class TestSuiteBuilder(private val title: String) {
     internal val cases = mutableListOf<TestCase>()
     internal var attribute: TestAttribute = TestAttribute.NONE
 
-    fun build() = TestSuite(title, attribute, cases)
+    fun build() = TestSuite(title, cases, attribute)
 
     fun case(title: String, init: TestCaseBuilder.() -> Unit) {
         testCase(title, init).also { cases.add(it) }
