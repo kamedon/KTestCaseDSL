@@ -181,7 +181,6 @@ class TestSuiteWithAttributeTest {
                 it["Priority"] === "Low"
             }
         }
-        println(exception::class.toString())
         assertTrue { exception is ClassCastException }
     }
 
