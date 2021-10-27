@@ -40,19 +40,19 @@ data class TestCase(
 
 class TestCaseBuilder(private val title: String) {
 
-    internal val caseSteps = mutableListOf<TestCaseStep>()
-    internal val verifies = mutableListOf<TestCaseVerify>()
-    internal var preCondition = TestCaseConditions(listOf())
-    internal var postCondition = TestCaseConditions(listOf())
-    internal var attribute: TestAttribute = TestAttribute.NONE
+    val caseSteps = mutableListOf<TestCaseStep>()
+    val verifies = mutableListOf<TestCaseVerify>()
+    var preCondition = TestCaseConditions(listOf())
+    var postCondition = TestCaseConditions(listOf())
+    var attribute: TestAttribute = TestAttribute.NONE
 
     fun build() = TestCase(title, preCondition, caseSteps, verifies, postCondition, attribute)
 
-    fun preCondition(init: TestCaseConditionsBuilder.() -> Unit) {
+    inline fun preCondition(init: TestCaseConditionsBuilder.() -> Unit) {
         preCondition = testCaseCondition(init)
     }
 
-    fun postCondition(init: TestCaseConditionsBuilder.() -> Unit) {
+    inline fun postCondition(init: TestCaseConditionsBuilder.() -> Unit) {
         postCondition = testCaseCondition(init)
     }
 
@@ -60,14 +60,13 @@ class TestCaseBuilder(private val title: String) {
         verifies.add(testCaseVerify(title))
     }
 
-    fun step(title: String, init: TestCaseStepBuilder.() -> Unit = {}) {
+    inline fun step(title: String, init: TestCaseStepBuilder.() -> Unit = {}) {
         testCaseStep(title, init).also { caseSteps.add(it) }
     }
 
-    fun <T> attributeWith(testAttribute: () -> T) {
+    inline fun <T> attributeWith(testAttribute: () -> T) {
         attribute = testAttribute(testAttribute)
     }
-
 
 }
 
@@ -98,6 +97,5 @@ fun TestCaseBuilder.postCondition(condition: TestCaseConditions) {
 fun <T> TestCaseBuilder.attributeWith(testAttribute: TestAttribute.Attribute<T>) {
     attribute = testAttribute
 }
-
 
 
