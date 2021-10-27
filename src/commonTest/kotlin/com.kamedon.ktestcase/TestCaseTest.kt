@@ -39,5 +39,75 @@ class TestCaseTest {
         assertEquals(steps[1].title, suite.cases[0].steps[2].title)
     }
 
+    @Test
+    fun addVerifyTest() {
+        val verify = testCaseVerify("add verify")
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                verify("verify1")
+                verify(verify)
+                verify("verify2")
+            }
+        }
+        assertEquals(3, suite.cases[0].verifies.size)
+        assertEquals(verify, suite.cases[0].verifies[1])
+        assertEquals("verify2", suite.cases[0].verifies[2].title)
+    }
+
+    @Test
+    fun addVerifiesTest() {
+        val verifies = listOf(testCaseVerify("add verify1"), testCaseVerify("add verify2"))
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                verify("verify1")
+                verifies(verifies)
+                verify("verify2")
+            }
+        }
+        assertEquals(4, suite.cases[0].verifies.size)
+        assertEquals(verifies[0], suite.cases[0].verifies[1])
+        assertEquals("verify2", suite.cases[0].verifies[3].title)
+    }
+
+    @Test
+    fun setPreCondition() {
+        val condition = testCaseCondition {
+            condition("condition")
+        }
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                preCondition(condition)
+            }
+        }
+        assertEquals(condition, suite.cases[0].preConditions)
+    }
+
+    @Test
+    fun setPostCondition() {
+        val condition = testCaseCondition {
+            condition("condition")
+        }
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                postCondition(condition)
+            }
+        }
+        assertEquals(condition, suite.cases[0].postConditions)
+    }
+
+    @Test
+    fun setAttributeCondition() {
+        val attribute = testAttribute {
+            mapOf("tag" to "Login", "Priority" to "high")
+        }
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                attributeWith(attribute)
+            }
+        }
+        assertEquals(attribute, suite.cases[0].attribute)
+    }
+
+
 }
 
