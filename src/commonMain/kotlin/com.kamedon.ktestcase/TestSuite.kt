@@ -32,16 +32,16 @@ data class TestSuite(val title: String, val cases: List<TestCase>, val attribute
 }
 
 class TestSuiteBuilder(private val title: String) {
-    internal val cases = mutableListOf<TestCase>()
-    internal var attribute: TestAttribute = TestAttribute.NONE
+    val cases = mutableListOf<TestCase>()
+    var attribute: TestAttribute = TestAttribute.NONE
 
     fun build() = TestSuite(title, cases, attribute)
 
-    fun case(title: String, init: TestCaseBuilder.() -> Unit) {
+    inline fun case(title: String, init: TestCaseBuilder.() -> Unit) {
         testCase(title, init).also { cases.add(it) }
     }
 
-    fun <T> attributeWith(testAttribute: () -> T) {
+    inline fun <T> attributeWith(testAttribute: () -> T) {
         attribute = testAttribute(testAttribute)
     }
 

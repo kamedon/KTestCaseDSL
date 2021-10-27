@@ -7,8 +7,8 @@ data class TestCaseStep(
 )
 
 class TestCaseStepBuilder(private val action: String) {
-    internal val verifies = mutableListOf<TestCaseVerify>()
-    internal var attribute: TestAttribute = TestAttribute.NONE
+    val verifies = mutableListOf<TestCaseVerify>()
+    var attribute: TestAttribute = TestAttribute.NONE
 
     fun build() = TestCaseStep(action, attribute, verifies)
 
@@ -16,10 +16,9 @@ class TestCaseStepBuilder(private val action: String) {
         verifies.add(testCaseVerify(verify))
     }
 
-    fun <T> attributeWith(testAttribute: () -> T) {
+    inline fun <T> attributeWith(testAttribute: () -> T) {
         attribute = testAttribute(testAttribute)
     }
-
 }
 
 fun TestCaseStepBuilder.verify(verify: TestCaseVerify) {

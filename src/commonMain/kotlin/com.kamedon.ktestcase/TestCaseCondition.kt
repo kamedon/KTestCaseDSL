@@ -5,7 +5,6 @@ data class TestCaseConditions(val conditions: List<TestCaseCondition>) {
     companion object {
         val NONE = TestCaseConditions(listOf())
     }
-
 }
 
 class TestCaseConditionsBuilder {

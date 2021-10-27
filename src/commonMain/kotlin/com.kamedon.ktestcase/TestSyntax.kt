@@ -1,18 +1,18 @@
 package com.kamedon.ktestcase
 
-fun testSuite(title: String, init: TestSuiteBuilder.() -> Unit): TestSuite {
+inline fun testSuite(title: String, init: TestSuiteBuilder.() -> Unit): TestSuite {
     return TestSuiteBuilder(title).apply(init).build()
 }
 
-fun testCase(title: String, init: TestCaseBuilder.() -> Unit): TestCase {
+inline fun testCase(title: String, init: TestCaseBuilder.() -> Unit): TestCase {
     return TestCaseBuilder(title).apply(init).build()
 }
 
-fun testCaseStep(title: String, init: TestCaseStepBuilder.() -> Unit = {}): TestCaseStep {
+inline fun testCaseStep(title: String, init: TestCaseStepBuilder.() -> Unit = {}): TestCaseStep {
     return TestCaseStepBuilder(title).apply(init).build()
 }
 
-fun testCaseCondition(init: TestCaseConditionsBuilder.() -> Unit): TestCaseConditions {
+inline fun testCaseCondition(init: TestCaseConditionsBuilder.() -> Unit): TestCaseConditions {
     return TestCaseConditionsBuilder().apply(init).build()
 }
 
@@ -21,6 +21,6 @@ fun testCaseVerify(title: String): TestCaseVerify {
 }
 
 
-fun <T> testAttribute(attribute: () -> T): TestAttribute.Attribute<T> {
+inline fun <T> testAttribute(attribute: () -> T): TestAttribute.Attribute<T> {
     return TestAttribute.Attribute(attribute())
 }
