@@ -44,7 +44,7 @@ fun TestSuite.markdown(): String {
         val attributeMarkdown = attribute.markdown()
 
         val stepMarkdown =
-            stepTitle() + caseSteps.mapIndexed { index, caseStep ->
+            stepTitle() + steps.mapIndexed { index, caseStep ->
                 caseStep.markdown(index + 1)
             }.joinToString("\n")
 

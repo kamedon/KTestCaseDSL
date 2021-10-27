@@ -2,12 +2,41 @@ package com.kamedon.ktestcase
 
 data class TestCase(
     val title: String,
-    val preConditions: TestCaseConditions,
-    val caseSteps: List<TestCaseStep>,
-    val verifies: List<TestCaseVerify>,
-    val postConditions: TestCaseConditions,
+    val preConditions: TestCaseConditions = TestCaseConditions.NONE,
+    val steps: List<TestCaseStep> = listOf(),
+    val verifies: List<TestCaseVerify> = listOf(),
+    val postConditions: TestCaseConditions = TestCaseConditions.NONE,
     val attribute: TestAttribute = TestAttribute.NONE
-)
+) {
+    @Suppress("UNCHECKED_CAST")
+    inline fun <T> filterByAttribute(includeNoneAttribute: Boolean = false, f: (T) -> Boolean): TestCase {
+        val filterCases = steps.filter {
+            when (val caseAttribute = it.attribute) {
+                TestAttribute.NONE -> includeNoneAttribute
+                is TestAttribute.Attribute<*> -> {
+                    val attributeValue = caseAttribute.value as? T ?: return@filter false
+                    f(attributeValue)
+                }
+            }
+        }
+        return copy(steps = filterCases)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    inline fun <T> filterByAttributeElseError(includeNoneAttribute: Boolean = false, f: (T) -> Boolean): TestCase {
+        val filterCases = steps.filter {
+            when (val caseAttribute = it.attribute) {
+                TestAttribute.NONE -> includeNoneAttribute
+                is TestAttribute.Attribute<*> -> {
+                    val attributeValue = caseAttribute.value as T
+                    f(attributeValue)
+                }
+            }
+        }
+        return copy(steps = filterCases)
+    }
+
+}
 
 class TestCaseBuilder(private val title: String) {
 
