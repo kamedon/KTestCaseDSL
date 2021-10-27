@@ -142,7 +142,7 @@ class TestCaseTest {
             }
         }
 
-        val filterCase = suite.cases[0].filterByAttribute<Map<*, *>> (true){
+        val filterCase = suite.cases[0].filterByAttribute<Map<*, *>>(true) {
             it["Priority"] == "High"
         }
 
@@ -151,6 +151,81 @@ class TestCaseTest {
         assertEquals("step2", filterCase.steps[1].title)
     }
 
+    @Test
+    fun filterByAttributeElseError() {
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                step("step1") {
+                    attributeWith {
+                        mapOf("Priority" to "High")
+                    }
+                }
+                step("step2")
+                step("step3") {
+                    attributeWith {
+                        "High"
+                    }
+                }
+            }
+        }
+
+        val exception = assertFails {
+            suite.cases[0].filterByAttributeElseError<Map<*, *>>(true) {
+                it["Priority"] == "High"
+            }
+        }
+        assertTrue { exception is ClassCastException }
+    }
+
+    @Test
+    fun filterByAttributeElseErrorExcludeNone() {
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                step("step1") {
+                    attributeWith {
+                        mapOf("Priority" to "High")
+                    }
+                }
+                step("step2")
+            }
+        }
+
+        val filterCase = suite.cases[0].filterByAttributeElseError<Map<*, *>>(false) {
+            it["Priority"] == "High"
+        }
+
+
+        assertEquals(1, filterCase.steps.size)
+        assertEquals("step1", filterCase.steps[0].title)
+
+
+    }
+
+
+    @Test
+    fun filterByAttributeElseErrorIncludeNone() {
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                step("step1") {
+                    attributeWith {
+                        mapOf("Priority" to "High")
+                    }
+                }
+                step("step2")
+            }
+        }
+
+        val filterCase = suite.cases[0].filterByAttributeElseError<Map<*, *>>(true) {
+            it["Priority"] == "High"
+        }
+
+
+        assertEquals(2, filterCase.steps.size)
+        assertEquals("step1", filterCase.steps[0].title)
+        assertEquals("step2", filterCase.steps[1].title)
+
+
+    }
 
 
 }
