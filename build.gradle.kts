@@ -3,7 +3,14 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     kotlin("multiplatform") version "1.5.31"
     id("maven-publish")
+    java
+    jacoco
 }
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 
 repositories {
     mavenCentral()
@@ -52,8 +59,8 @@ kotlin {
         val nativeMain by getting
         val nativeTest by getting
     }
-}
 
+}
 
 publishing {
 
@@ -81,4 +88,26 @@ fun loadProperties(fileName: String): Properties {
     }
     props.load(file.inputStream())
     return props
+}
+
+tasks.jacocoTestReport {
+    val coverageSourceDirs = arrayOf(
+        "src/commonMain",
+        "src/jvmMain"
+    )
+
+    val classFiles = File("${buildDir}/classes/kotlin/jvm/")
+        .walkBottomUp()
+        .toSet()
+
+    classDirectories.setFrom(classFiles)
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+
+    executionData
+        .setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+    reports {
+        xml.required.set(false)
+        csv.required.set(false)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
 }
