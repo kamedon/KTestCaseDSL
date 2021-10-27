@@ -108,6 +108,50 @@ class TestCaseTest {
         assertEquals(attribute, suite.cases[0].attribute)
     }
 
+    @Test
+    fun filterByAttribute() {
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                step("step1") {
+                    attributeWith {
+                        mapOf("Priority" to "High")
+                    }
+                }
+                step("step2")
+            }
+        }
+
+        val filterCase = suite.cases[0].filterByAttribute<Map<*, *>> {
+            it["Priority"] == "High"
+        }
+
+        assertEquals(1, filterCase.steps.size)
+        assertEquals("step1", filterCase.steps[0].title)
+    }
+
+    @Test
+    fun filterByAttributeIncludeNone() {
+        val suite = testSuite("TestSuite 1") {
+            case("case1") {
+                step("step1") {
+                    attributeWith {
+                        mapOf("Priority" to "High")
+                    }
+                }
+                step("step2")
+            }
+        }
+
+        val filterCase = suite.cases[0].filterByAttribute<Map<*, *>> (true){
+            it["Priority"] == "High"
+        }
+
+        assertEquals(2, filterCase.steps.size)
+        assertEquals("step1", filterCase.steps[0].title)
+        assertEquals("step2", filterCase.steps[1].title)
+    }
+
+
 
 }
 
