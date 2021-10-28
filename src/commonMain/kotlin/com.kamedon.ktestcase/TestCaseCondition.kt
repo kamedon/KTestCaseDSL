@@ -1,6 +1,11 @@
 package com.kamedon.ktestcase
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TestCaseCondition(val title: String)
+
+@Serializable
 data class TestCaseConditions(val conditions: List<TestCaseCondition>) {
     companion object {
         val NONE = TestCaseConditions(listOf())

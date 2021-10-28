@@ -1,6 +1,8 @@
 package com.kamedon.ktestcase
 
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TestSuite(val title: String, val cases: List<TestCase>, val attribute: TestAttribute = TestAttribute.NONE) {
     @Suppress("UNCHECKED_CAST")
     inline fun <T> filterByAttribute(includeNoneAttribute: Boolean = false, f: (T) -> Boolean): TestSuite {

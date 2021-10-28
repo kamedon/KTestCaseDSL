@@ -1,5 +1,8 @@
 package com.kamedon.ktestcase
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TestCase(
     val title: String,
     val preConditions: TestCaseConditions = TestCaseConditions.NONE,
