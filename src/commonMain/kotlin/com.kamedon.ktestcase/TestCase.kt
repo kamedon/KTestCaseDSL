@@ -1,5 +1,6 @@
 package com.kamedon.ktestcase
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,7 +10,7 @@ data class TestCase(
     val steps: List<TestCaseStep> = listOf(),
     val verifies: List<TestCaseVerify> = listOf(),
     val postConditions: TestCaseConditions = TestCaseConditions.NONE,
-    val attribute: TestAttribute = TestAttribute.NONE
+    @Contextual val attribute: TestAttribute = TestAttribute.NONE
 ) {
     @Suppress("UNCHECKED_CAST")
     inline fun <T> filterByAttribute(includeNoneAttribute: Boolean = false, f: (T) -> Boolean): TestCase {

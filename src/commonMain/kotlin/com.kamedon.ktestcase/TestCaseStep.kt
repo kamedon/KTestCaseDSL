@@ -1,11 +1,12 @@
 package com.kamedon.ktestcase
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class TestCaseStep(
     val title: String,
-    val attribute: TestAttribute = TestAttribute.NONE,
+    @Contextual val attribute: TestAttribute = TestAttribute.NONE,
     val verifies: List<TestCaseVerify> = listOf()
 )
 
