@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     kotlin("multiplatform") version "1.5.31"
+    kotlin("plugin.serialization") version "1.5.31"
     id("maven-publish")
     java
     jacoco
@@ -28,13 +29,13 @@ kotlin {
             useJUnit()
         }
     }
-    js(LEGACY) {
-        browser {
-            commonWebpackConfig {
-                cssSupport.enabled = true
-            }
-        }
-    }
+//    js(LEGACY) {
+//        browser {
+//            commonWebpackConfig {
+//                cssSupport.enabled = true
+//            }
+//        }
+//    }
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
     val nativeTarget = when {
@@ -46,16 +47,21 @@ kotlin {
 
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+            }
+        }
         val commonTest by getting {
             dependencies {
+
                 implementation(kotlin("test"))
             }
         }
         val jvmMain by getting
         val jvmTest by getting
-        val jsMain by getting
-        val jsTest by getting
+//        val jsMain by getting
+//        val jsTest by getting
         val nativeMain by getting
         val nativeTest by getting
     }
