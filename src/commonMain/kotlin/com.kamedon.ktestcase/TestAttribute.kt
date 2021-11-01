@@ -1,16 +1,13 @@
 package com.kamedon.ktestcase
 
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
+import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.serializer
+import kotlinx.serialization.json.*
 
 sealed class TestAttribute {
     @Serializable(with = TestAttributeNoneSerializer::class)
@@ -38,7 +35,7 @@ object TestAttributeNoneSerializer : KSerializer<TestAttribute.NONE> {
     }
 }
 
-class TestAttributeAttributeSerializer<T>(private val dataSerializer: KSerializer<T>) :
+class TestAttributeAttributeSerializer<T>(val dataSerializer: KSerializer<T>) :
     KSerializer<TestAttribute.Attribute<T>> {
     override val descriptor: SerialDescriptor = dataSerializer.descriptor
     override fun serialize(encoder: Encoder, value: TestAttribute.Attribute<T>) =
@@ -64,8 +61,17 @@ object TestAttributeSerializer {
     }
 
     override fun deserialize(decoder: Decoder): TestAttribute {
-        error("not support")
+        require(decoder is JsonDecoder)
+        val element = decoder.decodeJsonElement()
+        require(element is JsonObject)
+        if (element.keys.isEmpty()) {
+            return TestAttribute.NONE
+        }
+        val valueSerializer = serializer<Map<String, List<String>>>()
+        val value = decoder.json.decodeFromJsonElement(valueSerializer, element)
+        return TestAttribute.Attribute(value)
     }
 
 
 }
+
