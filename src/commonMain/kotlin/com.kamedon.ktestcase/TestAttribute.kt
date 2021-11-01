@@ -46,15 +46,25 @@ class TestAttributeAttributeSerializer<T>(val dataSerializer: KSerializer<T>) :
 
 @ExperimentalSerializationApi
 @Serializer(forClass = TestAttribute::class)
-object TestAttributeSerializer {
+class TestAttributeSerializer<T>(val dataSerializer: KSerializer<T>) {
+
+    companion object {
+        inline fun <reified T> new(): TestAttributeSerializer<T> {
+            return TestAttributeSerializer(serializer())
+        }
+    }
+
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("TestAttribute")
 
     override fun serialize(encoder: Encoder, value: TestAttribute) {
         when (value) {
             is TestAttribute.NONE -> encoder.encodeSerializableValue(serializer(), value)
             is TestAttribute.Attribute<*> -> {
-                (value as? TestAttribute.Attribute<Map<String, List<String>>>)?.let {
-                    encoder.encodeSerializableValue(TestAttributeAttributeSerializer(serializer()), it)
+                (value as? T)?.let {
+                    encoder.encodeSerializableValue(
+                        TestAttributeAttributeSerializer(dataSerializer),
+                        value as TestAttribute.Attribute<T>
+                    )
                 }
             }
         }
@@ -67,8 +77,7 @@ object TestAttributeSerializer {
         if (element.keys.isEmpty()) {
             return TestAttribute.NONE
         }
-        val valueSerializer = serializer<Map<String, List<String>>>()
-        val value = decoder.json.decodeFromJsonElement(valueSerializer, element)
+        val value = decoder.json.decodeFromJsonElement(dataSerializer, element)
         return TestAttribute.Attribute(value)
     }
 

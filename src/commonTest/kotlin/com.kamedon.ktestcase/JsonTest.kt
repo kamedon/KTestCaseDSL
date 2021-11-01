@@ -41,7 +41,7 @@ class JsonTest {
         val attribute: TestAttribute = testAttribute { mapOf("tags" to listOf("tag1", "tag2")) }
         val json = Json {
             serializersModule = SerializersModule {
-                contextual(TestAttribute::class, TestAttributeSerializer)
+                contextual(TestAttribute::class, TestAttributeSerializer.new<Map<String, List<String>>>())
             }
         }.encodeToString(attribute)
         assertEquals("""{"tags":["tag1","tag2"]}""", json)
@@ -59,7 +59,7 @@ class JsonTest {
     fun encodeAttributeJson() {
         val attribute = Json {
             serializersModule = SerializersModule {
-                contextual(TestAttribute::class, TestAttributeSerializer)
+                contextual(TestAttribute::class, TestAttributeSerializer.new<Map<String, List<String>>>())
             }
         }.decodeFromString<TestAttribute>("""{"tags":["tag3","tag4"]}""")
         println(attribute)
@@ -112,7 +112,7 @@ class JsonTest {
         }
         val json = Json {
             serializersModule = SerializersModule {
-                contextual(TestAttribute::class, TestAttributeSerializer)
+                contextual(TestAttribute::class, TestAttributeSerializer.new<Map<String, List<String>>>())
             }
         }.encodeToString(suite)
         assertEquals(
@@ -127,7 +127,7 @@ class JsonTest {
             """{"title":"suite","cases":[{"title":"case1","preConditions":{"conditions":[{"title":"preCondition"}]},"steps":[{"title":"step1-1","attribute":{"tags":["tag3","tag4"]}},{"title":"step1-2"}],"verifies":[{"title":"verify1-1"},{"title":"verify1=2"}],"postConditions":{"conditions":[{"title":"postCondition"}]}},{"title":"case2","steps":[{"title":"step2-1"}]}],"attribute":{"tags":["tag1","tag2"]}}"""
         val suite = Json {
             serializersModule = SerializersModule {
-                contextual(TestAttribute::class, TestAttributeSerializer)
+                contextual(TestAttribute::class, TestAttributeSerializer.new<Map<String, List<String>>>())
             }
         }.decodeFromString<TestSuite>(json)
         val suiteAttribute = suite.attribute as TestAttribute.Attribute<Map<String, List<String>>>
