@@ -132,7 +132,30 @@ output text
 
 ## Advanced Feature
 
-### Add `Any Attribute` to TestSuite or TestCase   
+### Add `Any Attribute` to TestSuite or TestCase
 
 [Sample Custom Attribute](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/TestSuiteWithAttributeTest.kt)
+
+### Serialize/Deserialize Json
+
+[Simple](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/JsonTest.kt)
+
+Setting TestAttribute Serializer (TestAttributeSerializer.new<T>())
+
+```kotlin
+// Serialize
+val json = Json {
+    serializersModule = SerializersModule {
+        contextual(TestAttribute::class, TestAttributeSerializer.new<Map<String, List<String>>>())
+    }
+}.encodeToString(suite)
+
+// Deserialize
+val suite = Json {
+    serializersModule = SerializersModule {
+        contextual(TestAttribute::class, TestAttributeSerializer.new<Map<String, List<String>>>())
+    }
+}.decodeFromString<TestSuite>(json)
+```
+
 
