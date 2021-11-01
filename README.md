@@ -140,7 +140,7 @@ output text
 
 [Simple](https://github.com/kamedon/KTestCaseDSL/blob/master/src/commonTest/kotlin/com.kamedon.ktestcase/JsonTest.kt)
 
-Setting TestAttribute Serializer
+Setting TestAttribute Serializer (TestAttributeSerializer.new<T>())
 
 ```kotlin
 // Serialize
