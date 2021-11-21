@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
-    kotlin("multiplatform") version "1.5.31"
-    kotlin("plugin.serialization") version "1.5.31"
+    kotlin("multiplatform") version "1.6.0"
+    kotlin("plugin.serialization") version "1.6.0"
     id("maven-publish")
     java
     jacoco
@@ -18,7 +18,7 @@ repositories {
 }
 
 group = "com.kamedon"
-version = "0.5.0"
+version = "0.5.1"
 
 kotlin {
     jvm {
@@ -49,7 +49,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
             }
         }
         val commonTest by getting {
